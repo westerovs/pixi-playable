@@ -81,31 +81,7 @@ export default class HUD extends Container {
     ok_btn.on('pointertap', this.#onHandlerOkBtn)
   
     Object.values(btn).forEach((sprite, i) => {
-      sprite.on('pointertap', (event) => {
-        const {target} = event
-      
-        if (!target.active) {
-          target.active  = true
-          target.texture = data.textures.btn_bg_1
-          target.scale.set(1.1)
-        } else {
-          target.active  = false
-          target.texture = data.textures.btn_bg_0
-          target.scale.set(1)
-        }
-      
-        ok_btn.x = sprite.x
-        this.setInteractive(ok_btn, false)
-      
-        if (!sprite.active) {
-          this.showConfirmButton(false)
-        } else {
-          this.showConfirmButton(true)
-          this.setInteractive(btn, false)
-          this.onChoice.emit(i)
-        }
-        this.setDefault(i)
-      })
+      sprite.on('pointertap', this.#onHandlerMainBtns.bind(this, [sprite, i]))
     })
   }
   
@@ -152,14 +128,34 @@ export default class HUD extends Container {
     this.hideHud()
   }
   
-  #onHandlerMainBtns = () => {
+  #onHandlerMainBtns = (props) => {
+    if (!props) return
+  
+    const [sprite, i] = props
     const {btn, ok_btn} = this
-    
 
+    if (!sprite.active) {
+      sprite.active  = true
+      sprite.texture = data.textures.btn_bg_1
+      sprite.scale.set(1.1)
+    } else {
+      sprite.active  = false
+      sprite.texture = data.textures.btn_bg_0
+      sprite.scale.set(1)
+    }
+
+    ok_btn.x = sprite.x
+    this.setInteractive(ok_btn, false)
+
+    if (!sprite.active) {
+      this.showConfirmButton(false)
+    } else {
+      this.showConfirmButton(true)
+      this.setInteractive(btn, false)
+      this.onChoice.emit(i)
+    }
+    this.setDefault(i)
   }
-
-  
-  
   
   setInteractive() {
     const target = arguments[0]
