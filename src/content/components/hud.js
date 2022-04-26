@@ -3,7 +3,6 @@ import { data } from "../../core/data"
 import { Runner } from "@pixi/runner"
 import { gsap } from "gsap"
 import { createSprite } from "../../utils"
-import btn_events from "../../utils/btn_events"
 
 export default class HUD extends Container {
   constructor() {
@@ -27,7 +26,9 @@ export default class HUD extends Container {
     this.onConfirm = new Runner('onConfirm')
   
     this.#showHammerBtn()
-    this.addButtonHandlers()
+    this.#onHandlerMainBtns()
+  
+    this.#initAllHandlers()
   }
   
   #createMainBtns = () => {
@@ -73,6 +74,41 @@ export default class HUD extends Container {
     }
   }
   
+  #initAllHandlers = () => {
+    const {hammer_btn, btn, ok_btn} = this
+    
+    hammer_btn.on('pointertap', this.#onHandlerHammerBtn)
+    ok_btn.on('pointertap', this.#onHandlerOkBtn)
+  
+    Object.values(btn).forEach((sprite, i) => {
+      sprite.on('pointertap', (event) => {
+        const {target} = event
+      
+        if (!target.active) {
+          target.active  = true
+          target.texture = data.textures.btn_bg_1
+          target.scale.set(1.1)
+        } else {
+          target.active  = false
+          target.texture = data.textures.btn_bg_0
+          target.scale.set(1)
+        }
+      
+        ok_btn.x = sprite.x
+        this.setInteractive(ok_btn, false)
+      
+        if (!sprite.active) {
+          this.showConfirmButton(false)
+        } else {
+          this.showConfirmButton(true)
+          this.setInteractive(btn, false)
+          this.onChoice.emit(i)
+        }
+        this.setDefault(i)
+      })
+    })
+  }
+  
   #hideHammerBtn = () => {
     const {hammer_btn} = this
   
@@ -86,45 +122,45 @@ export default class HUD extends Container {
     }
   }
   
+  #onHandlerHammerBtn = (event) => {
+    const {hammer_btn} = this
   
+    const {target} = event
+    if(target.active) return
+    target.scale.set(1)
+    target.active = true
+    target.tweenScale.kill()
+    target.tween.kill()
+    
+    this.setInteractive(hammer_btn, false)
+    this.#hideHammerBtn()
+    this.showHud()
+  }
   
-  addButtonHandlers = () => {
-    const {btn, ok_btn, hammer_btn} = this
+  #onHandlerOkBtn = (event) => {
+    const {btn, ok_btn} = this
+  
+    const {target} = event
+    if(target.active) return
+    target.scale.set(1)
+    target.active = true
     
-    for (const [i, button] of btn.entries()) {
-      button.on('pointertap', (e) => {
-        btn_events.onTapHandler(e)
-        ok_btn.x = button.x
-        this.setInteractive(ok_btn, false)
-        if (!button.active) {
-          this.showConfirmButton(false)
-        } else {
-          this.showConfirmButton(true)
-          this.setInteractive(btn, false)
-          this.onChoice.emit(i)
-        }
-        this.setDefault(i)
-      })
-    }
+    this.setInteractive(ok_btn, false)
+    this.setInteractive(btn, false)
+  
+    this.onConfirm.emit()
+    this.hideHud()
+  }
+  
+  #onHandlerMainBtns = () => {
+    const {btn, ok_btn} = this
     
-    ok_btn.on('pointertap', (e) => {
-      btn_events.onConfirmHandler(e)
-      this.setInteractive(ok_btn, false)
-      this.setInteractive(btn, false)
-      
-      this.onConfirm.emit()
-      this.hideHud()
-    })
-    
-    hammer_btn.on('pointertap', (e) => {
-      btn_events.onBuildHandler(e)
-      this.setInteractive(hammer_btn, false)
-      this.#hideHammerBtn()
-      this.showHud()
-    })
-    
+
   }
 
+  
+  
+  
   setInteractive() {
     const target = arguments[0]
     const enable = arguments[1]
@@ -149,7 +185,6 @@ export default class HUD extends Container {
       }
     }
   }
-  
   
   showConfirmButton = (bool) => {
     const {ok_btn} = this
