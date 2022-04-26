@@ -1,5 +1,5 @@
 import { Container } from "@pixi/display"
-import { data } from "../../../core/data.js"
+import { data } from "../../../data/data.js"
 import { Runner } from "@pixi/runner"
 import { gsap } from "gsap"
 import { createSprite, setActiveStatusElement } from "../../../utils/utils.js";

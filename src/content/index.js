@@ -3,7 +3,7 @@ import Hud from "./components/hud/Hud.js";
 import Cta from "./components/Cta";
 import { Container } from "@pixi/display";
 import { createSprite } from "../utils/utils.js";
-import { data } from "../core/data";
+import { data } from "../data/data";
 
 import * as PIXI from "pixi.js"
 import { gsap } from "gsap";
@@ -41,6 +41,7 @@ export default class Content extends Container {
       onDrop   : this.onStairDropped.bind(this),
       onConfirm: this.finishGame.bind(this)
     }
+
     this.hud.onChoice.add(this.listener)
     this.hud.onConfirm.add(this.listener)
     this.scene.onStairDropped.add(this.listener)

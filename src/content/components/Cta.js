@@ -1,6 +1,6 @@
 import { Container } from "@pixi/display";
 import { gsap } from "gsap"
-import { data } from "../../core/data";
+import { data } from "../../data/data";
 import { createSprite } from "../../utils/utils.js";
 
 export default class Cta extends Container {

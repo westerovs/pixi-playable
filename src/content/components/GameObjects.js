@@ -2,7 +2,7 @@ import { Container } from "@pixi/display";
 import { Runner } from "@pixi/runner";
 import { Graphics } from "@pixi/graphics"
 import { gsap } from "gsap"
-import { data } from "../../core/data";
+import { data } from "../../data/data";
 import { createSprite } from "../../utils/utils.js";
 import level_cfg from "./level"
 
@@ -18,6 +18,7 @@ export default class GameObjects extends Container {
     this.table       = null
     this.old_stair   = null
     this.new_stair_0 = null
+    
     this.plant_0     = null
     this.plant_1     = null
     this.plant_2     = null
@@ -27,31 +28,32 @@ export default class GameObjects extends Container {
     this.onStairHidden  = null
   }
   
-  create() {
+  create = () => {
     /**
-     * by the next step we can use factory created previously... or  'for' cycle with level_config
-     *
      * далее можно использовать заранее написаную фабрику объектов... я запустил цикл в паре
      *  с файлом конфигурации, в котором хранятся паремтры объектов сцены
      */
     
     for (const name in level_cfg) {
+      console.log(name)
+      
       const {x, y, anchor} = level_cfg[name]
-      this[name]           = createSprite(data.textures[name], this, x, y, anchor)
+      this[name] = createSprite(data.textures[name], this, x, y, anchor)
       if (level_cfg[name].animated) {
         gsap.from(this[name], {y: -200, duration: 1, ease: "bounce.out", delay: 0.25})
       }
-      
     }
+
     this.new_stair_0.visible = false
-    this.plant_2.scale       = {x: 1.125, y: 1.125}
+    this.plant_2.scale = {x: 1.125, y: 1.125}
     
     const mask = this.addChild(new Graphics())
+    
     mask.beginFill(0x000000, 0.5)
       .drawRect(0, 0, this.bg.width, this.bg.height)
       .endFill()
     this.mask = mask
-    
+
     this.onStairDropped = new Runner('onDrop')
   }
   

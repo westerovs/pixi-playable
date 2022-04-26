@@ -1,4 +1,4 @@
-import { app } from "../core/App";
+import { app } from "../App.js";
 
 const getFactor = (width, height, stageWidth, stageHeight) => {
   width ??= app.view.parentNode.clientWidth

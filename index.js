@@ -1,8 +1,4 @@
-import 'style';
-import { skipHello } from '@pixi/utils';
-import { applicationStart } from "@/core/App"
+import 'style'
+import { createGame } from "./src/App"
 
-document.oncontextmenu = _ => false;
-skipHello()
-
-applicationStart()
+createGame()
