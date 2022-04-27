@@ -13,7 +13,7 @@ import {setActiveStatusElement} from '../utils/utils.js'
 gsap.registerPlugin(PixiPlugin);
 PixiPlugin.registerPIXI(PIXI); //  обязательно с pixi
 
-// создаёт контейнер, который добавляетмся в stage
+// создаёт контейнер, который добавляется в stage
 export default class Content extends Container {
   static get() {
     return this._instance ?? (this._instance = new Content())
@@ -56,8 +56,9 @@ export default class Content extends Container {
   }
   
   finishGame() {
-    //
-    const shine = gsap.to(this.scene.new_stair_0, {duration: 0.5, pixi: {brightness: 2}, repeat: 1, yoyo: true});
+    const shine = gsap.to(this.scene.new_stair_0,
+      {duration: 0.5, pixi: {brightness: 2}, repeat: 1, yoyo: true}
+    );
     
     shine.vars.onComplete = () => {
       const fade = this.scene.addChild(new Graphics())
