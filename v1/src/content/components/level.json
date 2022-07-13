@@ -1,0 +1,69 @@
+{
+    "bg":{
+        "x": 0,
+        "y": 0,
+        "anchor": 0,
+        "animated": false
+    },
+    "austin":{
+        "x": 740,
+        "y": 266,
+        "anchor": 0.5,
+        "animated": false
+    },
+    "banquet":{
+        "x": 314,
+        "y": 477,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "globe":{
+        "x": 158,
+        "y": 203,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "table":{
+        "x": 356,
+        "y": 307,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "book_stand":{
+        "x": 904,
+        "y": 80,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "plant_0":{
+        "x": 516,
+        "y": 53,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "plant_1":{
+        "x": 1192,
+        "y": 238,
+        "anchor": 0.5,
+        "animated": true
+    },
+    "old_stair":{
+        "x": 1112,
+        "y": 358,
+        "anchor": 0.5,
+        "animated": false
+    },
+    "new_stair_0":{
+        "x": 1150,
+        "y": 304,
+        "anchor": 0.5,
+        "animated": true
+    },
+    
+    "plant_2":{
+        "x": 1256,
+        "y": 526,
+        "anchor": 0.5,
+        "animated": true
+    }
+}
